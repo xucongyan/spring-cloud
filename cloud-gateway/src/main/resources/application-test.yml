@@ -1,0 +1,25 @@
+server:
+  port: 8003
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+      routes:
+        - id: xcy-cloud-service
+          uri: lb://xcy-cloud-service
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
+  sleuth:
+    sampler:
+      probability: 1.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.99.101:8000/eureka/
+
