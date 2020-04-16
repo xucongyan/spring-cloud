@@ -1,19 +1,21 @@
 server:
-  port: 8002
+  port: 8004
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://192.168.99.101:8000/eureka/
 
-feign:
-  hystrix:
-    enabled: true
-  httpclient:
-    connection-timeout: 6000
-
-
 spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/xucongyan/config.git
+          username: xucongyan
+          password: xuzengkui1992
+
+
   sleuth:
     web:
       client:
@@ -23,3 +25,4 @@ spring:
   zipkin:
     base-url: http://192.168.99.101:9411
     discoveryClientEnabled: false
+
