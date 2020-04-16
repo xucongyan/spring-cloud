@@ -1,16 +1,27 @@
 spring:
-  #数据库基本配置
+#数据库基本配置
   datasource:
     username: root
     password: 123456
     url: jdbc:mysql://192.168.99.101:3306/ag_admin_v1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+#redis基本配置
   redis:
     host: 192.168.99.101
     password:
     port: 6379
     timeout: 60000
+#日志跟踪基本信息配置
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.99.101:9411
+    discoveryClientEnabled: false
 
 server:
   port: 8001

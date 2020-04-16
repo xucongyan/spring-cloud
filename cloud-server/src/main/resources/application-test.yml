@@ -9,3 +9,13 @@ eureka:
 feign:
   hystrix:
     enabled: true
+spring:
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.99.101:9411
+    discoveryClientEnabled: false
