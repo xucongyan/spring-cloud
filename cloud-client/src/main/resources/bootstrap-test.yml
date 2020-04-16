@@ -22,6 +22,12 @@ spring:
   zipkin:
     base-url: http://192.168.99.101:9411
     discoveryClientEnabled: false
+#rabbitMQ相关配置信息
+  rabbitmq:
+    host: 192.168.99.101
+    port: 5672
+    username: admin
+    password: admin
 
 server:
   port: 8001

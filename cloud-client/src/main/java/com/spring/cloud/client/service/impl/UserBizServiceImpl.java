@@ -7,10 +7,8 @@ import com.spring.cloud.client.service.UserBizService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -25,6 +23,9 @@ public class UserBizServiceImpl implements UserBizService {
 
     private final static String REDIS_KEY_PREFIX = "cloud_client_user";
 
+    @Value("${spring.profiles.xcy}")
+    private String hello;
+
     @Autowired
     private UserDao userDao;
 
@@ -33,6 +34,8 @@ public class UserBizServiceImpl implements UserBizService {
 
     @Override
     public User getUserByUsername(String username) {
+        logger.info("从config中心获取到的信息为:" + hello);
+
         String key = REDIS_KEY_PREFIX + username;
 
         User user;

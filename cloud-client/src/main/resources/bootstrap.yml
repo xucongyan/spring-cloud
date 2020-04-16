@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: test
+  cloud:
+    config:
+      name: application
+      profile: prod
+      label: master
+      discovery:
+        enabled: true
+        service-id: xcy-config-server
+    bus:
+      trace:
+        enabled: true
+  application:
+    name: xcy-cloud-client
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
