@@ -18,6 +18,7 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+  #设置缓存类型为redis
   cache:
     type: redis
   #日志跟踪基本信息配置
