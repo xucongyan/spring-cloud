@@ -1,18 +1,26 @@
 spring:
-#数据库基本配置
+  #数据库基本配置
   datasource:
     username: root
     password: 123456
     url: jdbc:mysql://192.168.99.101:3306/ag_admin_v1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-#redis基本配置
+  #redis基本配置
   redis:
     host: 192.168.99.101
     password:
     port: 6379
     timeout: 60000
-#日志跟踪基本信息配置
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  cache:
+    type: redis
+  #日志跟踪基本信息配置
   sleuth:
     web:
       client:
@@ -22,12 +30,25 @@ spring:
   zipkin:
     base-url: http://192.168.99.101:9411
     discoveryClientEnabled: false
-#rabbitMQ相关配置信息
+  #rabbitMQ相关配置信息
   rabbitmq:
     host: 192.168.99.101
     port: 5672
     username: admin
     password: admin
+
+  #config配置中心相关
+  cloud:
+    config:
+      name: application
+      profile: test
+      label: master
+      discovery:
+        enabled: true
+        service-id: xcy-config-server
+    bus:
+      trace:
+        enabled: true
 
 server:
   port: 8001
@@ -42,3 +63,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://192.168.99.101:8000/eureka/
+
+#开启访问，为了配合spring bus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
