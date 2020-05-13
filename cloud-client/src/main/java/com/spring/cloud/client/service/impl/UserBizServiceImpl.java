@@ -23,13 +23,11 @@ public class UserBizServiceImpl implements UserBizService {
 
     private final String REDIS_KEY_PREFIX = "CLOUD_CLIENT";
 
-
     @Autowired
     private UserDao userDao;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
-
 
     @Override
     public User getUserByUsername(String username) {
@@ -50,7 +48,6 @@ public class UserBizServiceImpl implements UserBizService {
 
             logger.info("将信息从数据库中读取");
         }
-
 
         return user;
     }
