@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(JwtAuthenticationRequest authenticationRequest) {
         UserInfo info = userService.validate(authenticationRequest);
-        logger.info("服务调用结果为:" + info);
+        logger.info("服务调用结果为:" + info.getId());
         if (!StringUtils.isEmpty(info.getId())) {
             return JwtTokenUtil.generateToken(new JWTInfo(info.getUsername(), info.getId() + "", info.getName()));
         }
