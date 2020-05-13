@@ -1,3 +1,5 @@
 /.idea
 cloud.iml
 */target/**
+/cloud-client/cloud-client.iml
+/cloud-gateway/cloud-gateway.iml

@@ -9,7 +9,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @MapperScan("com.spring.cloud.client.dao")
 @EnableDiscoveryClient
-@EnableCaching
 public class CloudClientApplication {
 
     public static void main(String[] args) {

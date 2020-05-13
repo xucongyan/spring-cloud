@@ -4,13 +4,13 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://192.168.99.101:8000/eureka/
+      defaultZone: http://192.168.99.100:8000/eureka/
 
 feign:
   hystrix:
     enabled: true
   httpclient:
-    connection-timeout: 6000
+    connection-timeout: 30000
 
 
 spring:
@@ -21,5 +21,5 @@ spring:
     sampler:
       probability: 1.0
   zipkin:
-    base-url: http://192.168.99.101:9411
+    base-url: http://192.168.99.100:9411
     discoveryClientEnabled: false
