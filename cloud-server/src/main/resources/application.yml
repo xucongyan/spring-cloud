@@ -1,5 +1,6 @@
 spring:
-  application:
-    name: xcy-cloud-server
+
   profiles:
     active: test
+  application:
+    name: xcy-cloud-server

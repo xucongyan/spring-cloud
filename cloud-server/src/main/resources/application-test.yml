@@ -11,6 +11,8 @@ feign:
     enabled: true
   httpclient:
     connection-timeout: 30000
+    read-timeout: 30000
+
 
 
 spring:

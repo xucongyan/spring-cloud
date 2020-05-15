@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.spring.cloud.client.dao.UserDao;
 import com.spring.cloud.client.entity.User;
 import com.spring.cloud.client.service.UserBizService;
+import com.spring.cloud.client.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class UserBizServiceImpl implements UserBizService {
     private UserDao userDao;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisUtil redisUtil;
 
     @Override
     public User getUserByUsername(String username) {
         String redisKey = REDIS_KEY_PREFIX + username;
 
-        String jsonString = redisTemplate.opsForValue().get(redisKey);
+        String jsonString = redisUtil.getValueByKey(redisKey);
 
         User user;
 
@@ -44,7 +45,7 @@ public class UserBizServiceImpl implements UserBizService {
         } else {
             user = userDao.getUserByUsername(username);
             jsonString = JSON.toJSONString(user);
-            redisTemplate.opsForValue().set(redisKey, jsonString, 60, TimeUnit.SECONDS);
+            redisUtil.setValue(redisKey, jsonString, 60, TimeUnit.SECONDS);
 
             logger.info("将信息从数据库中读取");
         }
