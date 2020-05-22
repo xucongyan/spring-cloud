@@ -9,9 +9,8 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -37,7 +36,7 @@ public class RedisUtil {
      * @return 是否锁定成功
      */
     public synchronized boolean lock(String key, String value, long expire, TimeUnit timeUnit) {
-        return (boolean) redisTemplate.execute((RedisCallback) connection -> {
+        return (boolean) redisTemplate.execute((RedisCallback<Object>) connection -> {
             return connection.set(key.getBytes(), value.getBytes(), Expiration.from(expire, timeUnit), RedisStringCommands.SetOption.SET_IF_ABSENT);
         });
     }
@@ -50,7 +49,7 @@ public class RedisUtil {
      * @return 是否释放成功
      */
     public synchronized boolean releaseLock(String key, String value) {
-        return (boolean) redisTemplate.execute((RedisCallback) connection -> {
+        return (boolean) redisTemplate.execute((RedisCallback<Object>) connection -> {
             String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
             return connection.eval(script.getBytes(), ReturnType.BOOLEAN, 1, key.getBytes(),
                     value.getBytes());
@@ -80,7 +79,7 @@ public class RedisUtil {
      * @return 失效时间，返回0代表永久有效
      */
     public long getExpire(String key) {
-        return redisTemplate.getExpire(key);
+        return Optional.ofNullable(key).map(u -> redisTemplate.getExpire(key)).get();
     }
 
     /**
@@ -90,7 +89,7 @@ public class RedisUtil {
      * @return 判断结果
      */
     public boolean hashKey(String key) {
-        return redisTemplate.hasKey(key);
+        return Optional.ofNullable(key).map(u -> redisTemplate.hasKey(key)).orElse(false);
     }
 
     /**
@@ -102,10 +101,10 @@ public class RedisUtil {
     public boolean delete(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
-                return redisTemplate.delete(key[0]);
+                return Optional.ofNullable(key[0]).map(u -> redisTemplate.delete(key[0])).get();
             } else {
-                Long result = redisTemplate.delete(CollectionUtils.arrayToList(key));
-                return key.length == result;
+                Long result = redisTemplate.delete(new ArrayList<>(Arrays.asList(key)));
+                return Objects.equals(key.length, Optional.ofNullable(result).orElse(-1L).intValue());
             }
         }
         return false;
@@ -157,7 +156,7 @@ public class RedisUtil {
      * @return 执行递增之后的结果
      */
     public long incr(String key, long delta) {
-        return redisTemplate.opsForValue().increment(key, delta);
+        return Optional.ofNullable(key).map(u -> redisTemplate.opsForValue().increment(key, delta)).orElse(0L);
     }
 
     /**
@@ -168,7 +167,7 @@ public class RedisUtil {
      * @return 执行递减之后的结果
      */
     public long decr(String key, long delta) {
-        return redisTemplate.opsForValue().increment(key, -delta);
+        return Optional.ofNullable(key).map(u -> redisTemplate.opsForValue().increment(key, -delta)).orElse(0L);
     }
 
     /**
