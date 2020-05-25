@@ -8,7 +8,6 @@ import com.spring.cloud.client.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -34,7 +33,7 @@ public class UserBizServiceImpl implements UserBizService {
     public User getUserByUsername(String username) {
         String redisKey = REDIS_KEY_PREFIX + username;
 
-        String jsonString = redisUtil.getValueByKey(redisKey);
+        String jsonString = (String) redisUtil.get(redisKey);
 
         User user;
 
@@ -45,7 +44,7 @@ public class UserBizServiceImpl implements UserBizService {
         } else {
             user = userDao.getUserByUsername(username);
             jsonString = JSON.toJSONString(user);
-            redisUtil.setValue(redisKey, jsonString, 60, TimeUnit.SECONDS);
+            redisUtil.set(redisKey, jsonString, 60, TimeUnit.SECONDS);
 
             logger.info("将信息从数据库中读取");
         }
