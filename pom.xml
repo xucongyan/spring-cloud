@@ -51,10 +51,11 @@
             </exclusions>
         </dependency>
 
-        <!--spring cloud 服务注册中心-->
+        <!--使用nacos作为服务注册中心-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>0.9.0.RELEASE</version>
         </dependency>
 
         <!--消息追踪使用-->
