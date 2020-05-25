@@ -3,9 +3,6 @@ server:
 
 spring:
   cloud:
-    nacos:
-      discovery:
-        server-addr: 39.107.241.217:8848
     gateway:
       discovery:
         locator:
@@ -27,5 +24,8 @@ spring:
   zipkin:
       base-url: http://39.107.241.217:9411
       discoveryClientEnabled: false
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://39.107.241.217:8000/eureka/
 
