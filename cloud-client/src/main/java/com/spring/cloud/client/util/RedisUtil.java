@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author admin
+ * redis工具类
+ */
 @Component
 public class RedisUtil {
 

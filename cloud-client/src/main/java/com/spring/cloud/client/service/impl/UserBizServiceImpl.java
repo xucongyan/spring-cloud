@@ -1,9 +1,9 @@
 package com.spring.cloud.client.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.spring.cloud.client.dao.UserDao;
 import com.spring.cloud.client.entity.User;
 import com.spring.cloud.client.service.UserBizService;
+import com.spring.cloud.client.util.JsonUtil;
 import com.spring.cloud.client.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +38,12 @@ public class UserBizServiceImpl implements UserBizService {
         User user;
 
         if (jsonString != null) {
-            user = JSON.parseObject(jsonString, User.class);
+            user = JsonUtil.deSerialization(jsonString, User.class);
 
             logger.info("将信息从缓存中中读取");
         } else {
             user = userDao.getUserByUsername(username);
-            jsonString = JSON.toJSONString(user);
+            jsonString = JsonUtil.serialization(user);
             redisUtil.set(redisKey, jsonString, 60, TimeUnit.SECONDS);
 
             logger.info("将信息从数据库中读取");
