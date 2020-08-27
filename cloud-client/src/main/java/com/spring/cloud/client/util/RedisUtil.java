@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtil {
 
-    @Value("${is_redis_open}")
-    private boolean is_redis_open;
+  /*  @Value("${is_redis_open}")
+    private boolean is_redis_open;*/
 
     @Autowired
     private RedisConfig redisConfig;

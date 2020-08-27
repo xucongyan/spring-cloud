@@ -11,12 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class CloudClientApplication {
 
     public static void main(String[] args) {
-        try {
-            SpringApplication.run(CloudClientApplication.class, args);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+        SpringApplication.run(CloudClientApplication.class, args);
     }
 
 }
